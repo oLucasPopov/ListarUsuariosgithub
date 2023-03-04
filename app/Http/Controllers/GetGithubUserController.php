@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\GithubAPI\RequestGithubUserController;
+use App\Http\Controllers\GithubAPI\RequestGithubUserRepositoriesController;
 use App\Models\GithubUser;
 use App\Models\GithubUserRepository;
 use Exception;
