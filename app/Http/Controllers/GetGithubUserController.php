@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Adapters\Github\GithubUserRepositoriesJsonAdapter;
 use App\Helpers\ArrayHelper;
 use App\Helpers\ControllerHelper;
 use App\Http\Controllers\GithubAPI\RequestGithubUserController;
@@ -32,13 +33,7 @@ class GetGithubUserController extends Controller
             $githubUserResponse = $requestGithubUserController->handle($githubUser);
             $githubUserRepositoriesResponse = $requestGithubUserRepositoriesController->handle($githubUser);
 
-            foreach($githubUserRepositoriesResponse as $repository){
-                array_push($userRepositories, new GithubUserRepository([
-                    'name' => $repository['name']
-                    ,'stars' => $repository['stargazers_count']
-                    ,'url' => $repository['html_url']
-                ]));
-            }
+            $userRepositories = GithubUserRepositoriesJsonAdapter::adapt($githubUserRepositoriesResponse);
 
             ArrayHelper::sort_array($userRepositories, 'stars', $repository_order);
 
