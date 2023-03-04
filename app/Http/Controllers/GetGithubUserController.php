@@ -34,7 +34,7 @@ class GetGithubUserController extends Controller
             }
             return response()->json(['message' => $message], $e->getStatusCode(), array(), JSON_UNESCAPED_SLASHES);
         } catch (Exception $e) {
-            return response()->json('{"message":"Ocorreu um erro interno!"}', 500);
+            return response()->json(['message'=>'Ocorreu um erro interno: ' . $e->getMessage()], 500);
         }
     }
 }
