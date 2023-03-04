@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ArrayHelper;
 use App\Helpers\ControllerHelper;
 use App\Http\Controllers\GithubAPI\RequestGithubUserController;
 use App\Http\Controllers\GithubAPI\RequestGithubUserRepositoriesController;
@@ -39,15 +40,7 @@ class GetGithubUserController extends Controller
                 ]));
             }
 
-            if ($repository_order == 'desc') {
-                usort($userRepositories, function ($a, $b) {
-                    return $a['stars'] < $b['stars'];
-                });
-            } else {
-                usort($userRepositories, function ($a, $b) {
-                    return $a['stars'] > $b['stars'];
-                });
-            }
+            ArrayHelper::sort_array($userRepositories, 'stars', $repository_order);
 
             $githubUser = new GithubUser([
                 'id' => $githubUserResponse['id'],
