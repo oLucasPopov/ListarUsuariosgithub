@@ -24,6 +24,10 @@ class RequestGithubUserController extends Controller
             );
         }
 
+        if ($response->status() != 200) {
+            throw new \Exception('Erro ao realizar requisição: ' . $response->status());
+        }
+
         return $response->json();
     }
 }
