@@ -3,6 +3,7 @@
 namespace App\Adapters\Github;
 
 use App\Models\GithubUserRepository;
+use Illuminate\Support\Facades\URL;
 
 class GithubUserRepositoriesJsonAdapter
 {
@@ -10,8 +11,13 @@ class GithubUserRepositoriesJsonAdapter
   {
     $result = [];
     foreach ($json as $repository) {
+      $user = $repository['owner']['login'];
+      $repositoryName = $repository['name']; 
       array_push($result, new GithubUserRepository([
-        'name' => $repository['name'], 'stars' => $repository['stargazers_count'], 'url' => $repository['html_url']
+        'name' => $repositoryName, 
+        'stars' => $repository['stargazers_count'], 
+        'url' => URL::to("api/getGithubUserRepository/$user/$repositoryName"),
+        'github_url' => $repository['html_url']
       ]));
     }
 

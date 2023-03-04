@@ -11,6 +11,6 @@ class GithubRepository extends Model
         'description',
         'stars',
         'language',
-        'url'
+        'github_url'
     ];
 }

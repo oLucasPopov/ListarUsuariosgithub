@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class GithubUserRepository extends Model
 {
     protected $fillable = [
-        'name', 'stars', 'url'
+        'name',
+        'stars',
+        'url',
+        'github_url'
     ];
 }

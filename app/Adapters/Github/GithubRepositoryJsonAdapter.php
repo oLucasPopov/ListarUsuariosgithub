@@ -11,7 +11,7 @@ class GithubRepositoryJsonAdapter {
       'description' => $json['description'],
       'stars' => $json['stargazers_count'],
       'language' => $json['language'],
-      'url' => $json['html_url']
+      'github_url' => $json['html_url']
     ]);
   }
 }
