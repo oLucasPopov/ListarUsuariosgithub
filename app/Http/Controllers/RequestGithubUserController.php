@@ -13,19 +13,15 @@ class RequestGithubUserController extends Controller
         $url = "https://api.github.com/users/$user";
         $response = Http::get("https://api.github.com/users/$user");
 
-        if ($response->status() == 404) {
-            throw new NotFoundHttpException();
-        }
-
-        if ($response->status() == 403) {
-            throw new UnauthorizedHttpException(
-                $url,
-                'Quantidade de requisições excedida, tente novamente mais tarde!'
-            );
-        }
-
         if ($response->status() != 200) {
-            throw new \Exception('Erro ao realizar requisição: ' . $response->status());
+            switch ($response->status()) {
+                case 404:
+                    throw new NotFoundHttpException();
+                case 403:
+                    throw new UnauthorizedHttpException($url, 'Quantidade de requisições excedida, tente novamente mais tarde!');
+                default:
+                    throw new \Exception('Erro ao realizar requisição: ' . $response->status());
+            }
         }
 
         return $response->json();
