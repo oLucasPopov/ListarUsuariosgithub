@@ -12,7 +12,7 @@ class RequestGithubUserController extends Controller
     public function handle($user)
     {
         $url = "https://api.github.com/users/$user";
-        $response = Http::get("https://api.github.com/users/$user");
+        $response = Http::get($url);
 
         if ($response->status() != 200) {
             switch ($response->status()) {
