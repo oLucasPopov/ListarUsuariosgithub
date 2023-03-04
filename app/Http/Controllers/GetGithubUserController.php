@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Adapters\Github\GithubUserJsonAdapter;
 use App\Adapters\Github\GithubUserRepositoriesJsonAdapter;
 use App\Helpers\ArrayHelper;
 use App\Helpers\ControllerHelper;
@@ -32,22 +33,14 @@ class GetGithubUserController extends Controller
             $userRepositories = [];
             $githubUserResponse = $requestGithubUserController->handle($githubUser);
             $githubUserRepositoriesResponse = $requestGithubUserRepositoriesController->handle($githubUser);
-
+           
+            $githubUserModel = GithubUserJsonAdapter::adapt($githubUserResponse);
             $userRepositories = GithubUserRepositoriesJsonAdapter::adapt($githubUserRepositoriesResponse);
-
             ArrayHelper::sort_array($userRepositories, 'stars', $repository_order);
 
-            $githubUser = new GithubUser([
-                'id' => $githubUserResponse['id'],
-                'followers_count' => $githubUserResponse['followers'],
-                'following_count' => $githubUserResponse['following'],
-                'avatar_image' => $githubUserResponse['avatar_url'],
-                'email' => $githubUserResponse['email'],
-                'bio' => $githubUserResponse['bio'],
-                'repositories' => $userRepositories
-            ]);
+            $githubUserModel['repositories'] = $userRepositories;
 
-            return ControllerHelper::return_response($githubUser);
+            return ControllerHelper::return_response($githubUserModel);
         } catch (Exception | HttpException $e) {
             return ControllerHelper::return_error($e);
         } 
