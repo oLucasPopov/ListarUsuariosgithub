@@ -19,7 +19,7 @@ class ControllerHelper
         $statusCode = $e->getStatusCode();
         switch ($e->getStatusCode()) {
             case 404:
-                $message = 'Usuário não encontrado!';
+                $message = 'Não encontrado!';
                 break;
             case 400:
                 $message = "O campo $message não foi alimentado com um valor válido.";
