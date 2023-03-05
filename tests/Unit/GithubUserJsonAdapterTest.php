@@ -37,4 +37,24 @@ class GithubUserJsonAdapterTest extends TestCase
 
         $this->assertEquals($expectedUserRepository, $returnedGithubUser);
     }
+
+    function test_adapt_should_return_a_github_user_with_correct_values_when_exceeding_fields_are_provided(): void
+    {
+        $json = [
+            'id' => 1,
+            'followers' => 1,
+            'following' => 1,
+            'avatar_url' => 'avatar_image',
+            'email' => 'email',
+            'bio' => 'bio',
+            'exceeding_field' => 'exceeding_field'
+        ];
+
+        $expectedUserRepository = $this->mockGithubUser();
+
+        $returnedGithubUser = GithubUserJsonAdapter::adapt($json);
+
+        $this->assertEquals($expectedUserRepository, $returnedGithubUser);
+    }
+    
 }
