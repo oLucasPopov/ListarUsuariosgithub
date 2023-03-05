@@ -5,6 +5,7 @@
 Em um terminal, execute os seguintes comandos: 
 - git clone https://github.com/oLucasPopov/ListarUsuariosgithub.git
 - cd ListarUsuariosgithub
+- composer install
 - php artisan serve
 
 Após isso, o terminal deverá mostrar algo assim:
