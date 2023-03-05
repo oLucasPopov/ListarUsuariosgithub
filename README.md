@@ -1,66 +1,96 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<p  align="center"><a  href="https://laravel.com"  target="_blank"><img  src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg"  width="400"  alt="Laravel Logo"></a></p>
 
-## About Laravel
+## Configurando o projeto
+Versões Utilizadas:
+- PHP 8.1.2
+- Composer 2.5.4
+- Laravel Framework 10.2.0
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Em um terminal, execute os seguintes comandos: 
+- git clone https://github.com/oLucasPopov/ListarUsuariosgithub.git
+- cd ListarUsuariosgithub
+- composer install
+- php artisan serve
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Após isso, o terminal deverá mostrar algo assim:
+>   INFO  Server running on [http://127.0.0.1:8000]
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Utilizando a API
+As rotas que a API comporta são as seguintes:
 
-## Learning Laravel
+### http://localhost:8000/api/getGithubUser/{githubUser}
+Esta rota tem como objetivo listar o usuário e dar um resumo sobre seus repositórios públicos.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+O parâmetro ***{githubUser}*** da rota deve ser substituido pelo nome de usuário do github que será pesquisado (ex.: filipedeschamps).
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+É possível ordenar o repositório pelo número de estrelas que ele tem da seguinte maneira:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    /api/getGithubUser/{githubUser}?repository_order={asc|desc}
+O valor passado para a query ***repository_order*** deverá ser ***asc*** ou ***desc*** (sem chaves). 
+Caso nenhum seja informado, por padrão será ordenado como desc. 
+Se for informado um valor que não seja ***asc*** ou ***desc***, será retornado o erro  `401: Bad Request`.
 
-## Laravel Sponsors
+Os possíveis status de retorno dessa rota são:
+- **200**: Tudo ocorreu bem
+- **401**: Algum parametro não foi informado ou foi informado incorretamente.
+- **403**: Proibido. (Ocorre em caso de ser realizada muitas requisições em um período de tempo determinado pelo github).
+- **404**: O Usuário informado não foi encontrado.
+- **500**: Erro interno do servidor
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Segue um exemplo de retorno `200` de uma requisição para esta rota com o parâmetro ***repository_order=desc***:
 
-### Premium Partners
+    {
+       "id":4248081,
+       "followers_count":27924,
+       "following_count":299,
+       "avatar_image":"https://avatars.githubusercontent.com/u/4248081?v=4",
+       "email":null,
+       "bio":"Vou fazer você se apaixonar por programação!",
+       "repositories":[
+          {
+             "name":"react-hide-on-mouse-stop",
+             "stars":2,
+             "url":"http://127.0.0.1:8000/api/getGithubUserRepository/filipedeschamps/react-hide-on-mouse-stop",
+             "github_url":"https://github.com/filipedeschamps/react-hide-on-mouse-stop"
+          },
+          {
+             "name":"bytemd",
+             "stars":3,
+             "url":"http://127.0.0.1:8000/api/getGithubUserRepository/filipedeschamps/bytemd",
+             "github_url":"https://github.com/filipedeschamps/bytemd"
+          },
+          {
+             "name":"api_enem_microdados",
+             "stars":8,
+             "url":"http://127.0.0.1:8000/api/getGithubUserRepository/filipedeschamps/api_enem_microdados",
+             "github_url":"https://github.com/filipedeschamps/api_enem_microdados"
+          }
+       ]
+    }
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+### http://localhost:8000/api/getGithubUserRepository/{githubUser}/{userRepository}
+Esta rota tem como objetivo detalhar o repositório de um usuário.
 
-## Contributing
+O parâmetro ***{githubUser}*** da rota deve ser substituido pelo nome de usuário do github que será pesquisado.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+O parâmetro ***{userRepository}*** da rota deve ser substituido pelo nome do repositório do github que será pesquisado.
 
-## Code of Conduct
+Ao alimentar qualquer um dos parâmetros incorretamente poderá resultar no erro `404 - Not Found`.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Os possíveis status de retorno dessa rota são:
+- **200**: Tudo ocorreu bem
+- **401**: Algum parametro não foi informado ou foi informado incorretamente.
+- **403**: Proibido. (Ocorre em caso de ser realizada muitas requisições em um período de tempo determinado pelo github).
+- **404**: O Repositório informado não foi encontrado.
+- **500**: Erro interno do servidor
 
-## Security Vulnerabilities
+Segue um exemplo de retorno `200` de uma requisição para esta rota:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    {
+      "name": "video-maker",
+      "description": "Projeto open source para fazer vídeos automatizados",
+      "stars": 2335,
+      "language": "JavaScript",
+      "github_url": "https://github.com/filipedeschamps/video-maker"
+    }
