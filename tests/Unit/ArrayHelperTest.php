@@ -44,7 +44,7 @@ class ArrayHelperTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function test_should_order_array_when_desc_is_passed(): void
+    public function test_should_order_array_when_desc_in_lowercase_is_passed(): void
     {
         $fake_objects = $this->mock_unordered_array();
 
@@ -61,4 +61,22 @@ class ArrayHelperTest extends TestCase
 
         $this->assertTrue(true);
     }    
+
+    public function test_should_order_array_when_desc_in_uppercase_is_passed(): void
+    {
+        $fake_objects = $this->mock_unordered_array();
+
+        ArrayHelper::sort_array($fake_objects, 'id', 'DESC');
+
+        $lastObjID = null;
+        foreach ($fake_objects as $fake_object) {
+            $CurrentObjID = $fake_object['id'];
+            if (($lastObjID !== null)&&($CurrentObjID >= $lastObjID)) {
+                $this->fail("O Objeto atual é maior que o objeto anterior!  $CurrentObjID > $lastObjID ");
+            }
+            $lastObjID = $CurrentObjID;
+        }
+
+        $this->assertTrue(true);
+    }  
 }
