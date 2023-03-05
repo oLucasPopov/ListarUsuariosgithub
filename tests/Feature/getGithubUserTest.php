@@ -13,4 +13,11 @@ class getGithubUserTest extends TestCase
         $response = $this->get('/api/getGithubUser/olucaspopov');
         $response->assertStatus(200);
     }
+
+    public function test_getGithubUser_route_should_return_404_if_user_is_not_found(): void
+    {
+        // O usuário admin é proibido pelo Github
+        $response = $this->get('/api/getGithubUser/admin');
+        $response->assertStatus(404);
+    }
 }
