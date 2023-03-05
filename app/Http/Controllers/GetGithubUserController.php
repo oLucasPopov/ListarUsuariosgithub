@@ -21,9 +21,9 @@ class GetGithubUserController extends Controller
     {
         try 
         {
-            $repository_order = $request->query('repository_order') ?? 'desc';
+            $repository_order = strtoupper($request->query('repository_order') ?? 'desc');
 
-            if (!in_array($repository_order, ['asc', 'desc'])) {
+            if (!in_array($repository_order, ['ASC', 'DESC'])) {
                 throw new BadRequestHttpException('repository_order');
             }
 
