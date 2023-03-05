@@ -96,4 +96,13 @@ class ArrayHelperTest extends TestCase
         ArrayHelper::sort_array($fake_objects, 'id', 'ASC');
         $this->assertTrue(true);
     }
+
+    public function test_sort_array_should_throw_if_wrong_key_is_provided(): void {
+        $fake_objects = $this->mock_unordered_array();
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('O Valor passado para a chave a ser ordenada está incorreto!');
+
+        ArrayHelper::sort_array($fake_objects, 'WRONG_KEY', 'ASC');
+
+    }
 }
