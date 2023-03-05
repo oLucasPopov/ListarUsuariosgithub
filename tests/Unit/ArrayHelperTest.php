@@ -89,4 +89,11 @@ class ArrayHelperTest extends TestCase
         $this->expectExceptionMessage('O Valor passado para o tipo de ordenação está incorreto!');
         ArrayHelper::sort_array($fake_objects, 'id', 'INCORRECT_ORDER');
     }
+
+    public function test_sort_array_should_not_throw_if_empty_array_is_provided(): void
+    {
+        $fake_objects = [];
+        ArrayHelper::sort_array($fake_objects, 'id', 'ASC');
+        $this->assertTrue(true);
+    }
 }
