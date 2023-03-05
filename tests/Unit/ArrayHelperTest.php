@@ -25,7 +25,7 @@ class ArrayHelperTest extends TestCase
             new FakeObject(['id' => 4, 'email' => "carlos@example.com"])
         );
     }
-    
+
     public function test_should_order_array_when_asc_is_passed(): void
     {
         $fake_objects = $this->mock_unordered_array();
@@ -43,4 +43,22 @@ class ArrayHelperTest extends TestCase
 
         $this->assertTrue(true);
     }
+
+    public function test_should_order_array_when_desc_is_passed(): void
+    {
+        $fake_objects = $this->mock_unordered_array();
+
+        ArrayHelper::sort_array($fake_objects, 'id', 'desc');
+
+        $lastObjID = null;
+        foreach ($fake_objects as $fake_object) {
+            $CurrentObjID = $fake_object['id'];
+            if (($lastObjID !== null)&&($CurrentObjID >= $lastObjID)) {
+                $this->fail("O Objeto atual é maior que o objeto anterior!  $CurrentObjID > $lastObjID ");
+            }
+            $lastObjID = $CurrentObjID;
+        }
+
+        $this->assertTrue(true);
+    }    
 }
