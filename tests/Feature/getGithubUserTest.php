@@ -14,6 +14,12 @@ class getGithubUserTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_getGithubUser_route_should_return_200_if_ascending_order_in_lowercase_is_provided(): void
+    {
+        $response = $this->get('/api/getGithubUser/olucaspopov?repository_order=asc');
+        $response->assertStatus(200);
+    }
+
     public function test_getGithubUser_route_should_return_404_if_user_is_not_found(): void
     {
         // O usuário admin é proibido pelo Github
