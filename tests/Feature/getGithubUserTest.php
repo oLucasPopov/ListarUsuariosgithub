@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Http\Controllers\GetGithubUserController;
+use Mockery;
 use Tests\TestCase;
 
 class getGithubUserTest extends TestCase
@@ -24,7 +24,7 @@ class getGithubUserTest extends TestCase
     {
         $response = $this->get('/api/getGithubUser/olucaspopov?repository_order=ASC');
         $response->assertStatus(200);
-    }    
+    }
 
     public function test_getGithubUser_route_should_return_200_if_descending_order_in_lowercase_is_provided(): void
     {
@@ -49,5 +49,18 @@ class getGithubUserTest extends TestCase
         // O usuário admin é proibido pelo Github
         $response = $this->get('/api/getGithubUser/admin');
         $response->assertStatus(404);
+    }
+
+    public function test_getGithubUser_route_should_return_500_if_an_unexpected_error_occurs(): void
+    {
+        $mockHttpClient = Mockery::mock(GetGithubUserController::class);
+        $mockHttpClient->shouldReceive('handle')
+            ->andThrow(new \Exception('Unexpected error'));
+
+        $this->app->instance(GetGithubUserController::class, $mockHttpClient);
+
+        $response = $this->get('/api/getGithubUser/olucaspopov');
+
+        $response->assertStatus(500);
     }
 }
