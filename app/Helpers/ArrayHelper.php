@@ -12,14 +12,16 @@ class ArrayHelper
       throw new \InvalidArgumentException('O Valor passado para o tipo de ordenação está incorreto!');
     }
 
-    if ($sort_order == 'DESC') {
-      usort($array, function ($a, $b) use ($array_sortable_field) {
+    usort($array, function ($a, $b) use ($array_sortable_field, $sort_order) {
+      if (!isset($a[$array_sortable_field])) {
+        throw new \InvalidArgumentException('O Valor passado para a chave a ser ordenada está incorreto!');
+      }
+
+      if ($sort_order == 'DESC') {
         return $a[$array_sortable_field] < $b[$array_sortable_field];
-      });
-    } else {
-      usort($array, function ($a, $b) use ($array_sortable_field) {
+      } else {
         return $a[$array_sortable_field] > $b[$array_sortable_field];
-      });
-    }
+      }
+    });
   }
 }
