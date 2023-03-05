@@ -13,4 +13,10 @@ class getGithubUserRepositoryTest extends TestCase
         $response = $this->get('/api/getGithubUserRepository/olucaspopov/choris-game');
         $response->assertStatus(200);
     }
+
+    public function test_getGithubUserRepository_route_should_return_404_if_user_and_repository_combination_is_not_found(): void
+    {
+        $response = $this->get('/api/getGithubUserRepository/admin/choris-game');
+        $response->assertStatus(404);
+    }
 }
